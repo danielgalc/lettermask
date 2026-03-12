@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Edition;
-use App\Models\Group;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +14,7 @@ class EditionController extends Controller
 
         $editions = Edition::orderByDesc('created_at')->get();
 
-        return Inertia::render('Editions/Index', [
+        return Inertia::render('Admin/Editions/Index', [
             'editions' => $editions,
         ]);
     }
@@ -32,12 +31,12 @@ class EditionController extends Controller
         $this->authorize('create', Edition::class);
 
         $validated = $request->validate([
-            'name'                => 'required|string|max:255',
-            'theme'               => 'required|string|max:255',
-            'participation_mode'  => 'required|in:individual,pairs,groups',
-            'group_size'          => 'required|integer|min:1|max:20',
-            'event_date'          => 'nullable|date',
-            'use_letters'         => 'boolean',
+            'name'               => 'required|string|max:255',
+            'theme'              => 'required|string|max:255',
+            'participation_mode' => 'required|in:individual,pairs,groups',
+            'group_size'         => 'required|integer|min:1|max:20',
+            'event_date'         => 'nullable|date',
+            'use_letters'        => 'boolean',
         ]);
 
         if ($validated['participation_mode'] !== 'individual') {
@@ -63,21 +62,8 @@ class EditionController extends Controller
             'categories',
         ]);
 
-        $userGroup = null;
-        if (auth()->check()) {
-            $userGroup = $edition->groups()
-                ->whereHas(
-                    'participations',
-                    fn($q) =>
-                    $q->where('user_id', auth()->id())
-                )
-                ->with('participations.user')
-                ->first();
-        }
-
         return Inertia::render('Admin/Editions/Show', [
-            'edition'   => $edition,
-            'userGroup' => $userGroup,
+            'edition' => $edition,
         ]);
     }
 
@@ -85,7 +71,7 @@ class EditionController extends Controller
     {
         $this->authorize('update', $edition);
 
-        return Inertia::render('Editions/Edit', [
+        return Inertia::render('Admin/Editions/Edit', [
             'edition' => $edition,
         ]);
     }
