@@ -24,7 +24,7 @@ class EditionController extends Controller
     {
         $this->authorize('create', Edition::class);
 
-        return Inertia::render('Editions/Create');
+        return Inertia::render('Admin/Editions/Create');
     }
 
     public function store(Request $request)
@@ -50,7 +50,7 @@ class EditionController extends Controller
 
         Edition::create($validated);
 
-        return redirect()->route('editions.index')
+        return redirect()->route('admin.editions.index')
             ->with('success', 'Edición creada correctamente.');
     }
 
@@ -66,14 +66,16 @@ class EditionController extends Controller
         $userGroup = null;
         if (auth()->check()) {
             $userGroup = $edition->groups()
-                ->whereHas('participations', fn($q) =>
+                ->whereHas(
+                    'participations',
+                    fn($q) =>
                     $q->where('user_id', auth()->id())
                 )
                 ->with('participations.user')
                 ->first();
         }
 
-        return Inertia::render('Editions/Show', [
+        return Inertia::render('Admin/Editions/Show', [
             'edition'   => $edition,
             'userGroup' => $userGroup,
         ]);
@@ -111,7 +113,7 @@ class EditionController extends Controller
 
         $edition->update($validated);
 
-        return redirect()->route('editions.show', $edition)
+        return redirect()->route('admin.editions.show', $edition)
             ->with('success', 'Edición actualizada correctamente.');
     }
 
@@ -121,7 +123,7 @@ class EditionController extends Controller
 
         $edition->delete();
 
-        return redirect()->route('editions.index')
+        return redirect()->route('admin.editions.index')
             ->with('success', 'Edición eliminada correctamente.');
     }
 

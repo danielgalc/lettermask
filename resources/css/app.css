@@ -1,3 +1,116 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import 'tailwindcss';
+
+:root {
+    --background: #0D0D0D;
+    --surface: #1A1A1A;
+    --surface-raised: #222222;
+    --border: #2E2E2E;
+    --border-gold: rgba(201, 168, 76, 0.3);
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --text-primary: #F2EDE4;
+    --text-secondary: #A89880;
+    --text-muted: #5C5248;
+    --danger: #8B2035;
+    --danger-light: #B53050;
+    --success: #2D6A4F;
+    --success-light: #52B788;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--gold-light);
+}
+
+input,
+textarea,
+select {
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    width: 100%;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--gold);
+}
+
+button {
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}
+
+/* ── Responsive layout ── */
+.desktop-sidebar { display: flex !important; }
+.bottom-nav      { display: none !important; }
+.mobile-header   { display: none !important; }
+.main-content    { margin-left: 240px; max-width: calc(100vw - 240px); padding: 2.5rem 3rem; padding-bottom: 2.5rem; }
+
+@media (max-width: 768px) {
+    .desktop-sidebar { display: none !important; }
+    .bottom-nav      { display: flex !important; }
+    .mobile-header   { display: flex !important; }
+    .main-content    { margin-left: 0 !important; max-width: 100% !important; padding: 1.5rem 1.25rem 6rem !important; }
+}
